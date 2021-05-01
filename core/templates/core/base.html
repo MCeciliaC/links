@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap, Jquery, Css -->  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- Link CSS -->
+    <link href="master.css" rel="stylesheet">
+  </head>
+
+  <body id="demo">
+    <nav>
+      <div class="row">
+        <a class="nav-link col-10" href="/admin">Admin</a>
+        <button class="theme float-right" id="light" onclick="themeFunction()">Dark Mode</button>
+      </div>
+    </nav>
+    {% block content %}{% endblock %}
+    
+    <script>
+        function themeFunction() {
+          var but= document.querySelector('button');
+          var idb= but.getAttribute('id')
+          if (idb=="light") {
+            document.getElementById("demo").style.backgroundColor = "#222222";
+            document.getElementById("demo").style.color = "white";
+            var but= document.querySelector('button');
+            but.innerHTML = "Light Mode";
+            but.setAttribute('id', 'dark');
+          } else {
+            document.getElementById("demo").style.backgroundColor = "white";
+            document.getElementById("demo").style.color = "#222222";
+            var but= document.querySelector('button');
+            but.innerHTML = "Dark Mode";
+            but.setAttribute('id', 'light');
+          }
+        }
+        </script>
+  </body>
+</html>
