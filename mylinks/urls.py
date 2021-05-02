@@ -17,10 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from core import views
+from core.views import LinkCreate
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path('', views.links, name='links'),
+    path('', views.links, name='home'),
     path('admin/', admin.site.urls),
+    path('create/', login_required(LinkCreate.as_view()), name='create'),
     # Paths de Auth
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('registration.urls')),

@@ -1,101 +1,58 @@
-from django.contrib.auth.models import User
-from django import forms
+from .forms import UserCreationFormWithEmail, ProfileForm, EmailForm
 from django.views.generic import CreateView
-from django.urls import reverse_lazy 
-from django.shortcuts import render
-from django.template.loader import get_template
-from django.shortcuts import render, redirect
-from django.views import View
-from django.http import JsonResponse
-import json
-from validate_email import validate_email
-from django.contrib import messages
-from django.core.mail import EmailMessage
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
-from django.core.mail import send_mail
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from django.template.loader import render_to_string
-from .utils import account_activation_token
-from django.urls import reverse
-from django.contrib import auth
+from django.views.generic.edit import UpdateView
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from django import forms
+from .models import Profile
 
 # Create your views here.
-class RegistrationView(View):
-    def get(self, request):
-        return render(request, 'registration/register.html')
+class SignUpView(CreateView):
+    form_class = UserCreationFormWithEmail
+    template_name = 'registration/signup.html'
 
-    def post(self, request):
+    def get_success_url(self):
+        return reverse_lazy('login') + '?register'   
 
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-
-        context = {
-            'fieldValues': request.POST
-        }
-
-        if not User.objects.filter(username=username).exists():
-            if not User.objects.filter(email=email).exists():
-                if len(password) < 6:
-                    messages.error(request, 'Password too short')
-                    return render(request, 'registration/register.html', context)
-
-                user = User.objects.create_user(username=username, email=email)
-                user.set_password(password)
-                user.is_active = False
-                user.save()
-                current_site = get_current_site(request)
-                email_body = {
-                    'user': user,
-                    'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'token': account_activation_token.make_token(user),
-                }
-
-                link = reverse('activate', kwargs={
-                               'uidb64': email_body['uid'], 'token': email_body['token']})
-
-                email_subject = 'Activate your account'
-
-                activate_url = 'http://'+current_site.domain+link
-
-                email = EmailMessage(
-                    email_subject,
-                    'Hi '+user.username + ', Please the link below to activate your account \n'+activate_url,
-                    'noreply@semycolon.com',
-                    [email],
-                )
-                email.send(fail_silently=False)
-                messages.success(request, 'Cuenta creada con éxito, le enviamos un email para activarla.')
-                return render(request, 'registration/register.html')
-            else:
-                messages.error(request, 'The email is already registered')
-                return render(request, 'registration/register.html', context)    
-        else:
-            messages.error(request, 'User already exists')
-            return render(request, 'registration/register.html', context)
+    def get_form(self, form_class=None):
+        form = super(SignUpView, self).get_form()
+        # Modificar en tiempo real
+        form.fields['username'].widget = forms.TextInput(
+            attrs={'class':'form-control mb-2', 'placeholder':'Nombre de usuario'})
+        form.fields['email'].widget = forms.EmailInput(
+            attrs={'class':'form-control mb-2', 'placeholder':'Dirección email'})
+        form.fields['password1'].widget = forms.PasswordInput(
+            attrs={'class':'form-control mb-2', 'placeholder':'Contraseña'})
+        form.fields['password2'].widget = forms.PasswordInput(
+            attrs={'class':'form-control mb-2', 'placeholder':'Repite la contraseña'})
+        return form
 
 
-class VerificationView(View):
-    def get(self, request, uidb64, token):
-        try:
-            id = force_text(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(pk=id)
+@method_decorator(login_required, name='dispatch')
+class ProfileUpdate(UpdateView):
+    form_class = ProfileForm
+    success_url = reverse_lazy('profile')
+    template_name = 'registration/profile_form.html'
 
-            if not account_activation_token.check_token(user, token):
-                return redirect('login'+'?message='+'User already activated')
+    def get_object(self):
+        # recuperar el objeto que se va editar
+        profile, created = Profile.objects.get_or_create(user=self.request.user)
+        return profile
 
-            if user.is_active:
-                return redirect('login')
-            user.is_active = True
-            user.save()
+@method_decorator(login_required, name='dispatch')
+class EmailUpdate(UpdateView):
+    form_class = EmailForm
+    success_url = reverse_lazy('profile')
+    template_name = 'registration/profile_email_form.html'
 
-            messages.success(request, 'Account activated successfully')
-            return redirect('login')
+    def get_object(self):
+        # recuperar el objeto que se va editar
+        return self.request.user
 
-        except Exception as ex:
-            pass
-
-        return redirect('login')
+    def get_form(self, form_class=None):
+        form = super(EmailUpdate, self).get_form()
+        # Modificar en tiempo real
+        form.fields['email'].widget = forms.EmailInput(
+            attrs={'class':'form-control mb-2', 'placeholder':'Email'})
+        return form

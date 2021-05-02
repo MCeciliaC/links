@@ -1,15 +1,8 @@
 from django.urls import path
-from .views import RegistrationView
-  
-from .views import VerificationView
-from django.urls import path
-from django.views.decorators.csrf import csrf_exempt
-
+from .views import SignUpView, ProfileUpdate, EmailUpdate
 
 urlpatterns = [
-    path('register/', RegistrationView.as_view(), name="register"),
-    path('activate/<uidb64>/<token>', VerificationView.as_view(), name='activate'),
-
+    path('signup/', SignUpView.as_view(), name="register"),
+    path('profile/', ProfileUpdate.as_view(), name="profile"),
+    path('profile/email/', EmailUpdate.as_view(), name="profile_email"),
 ]
-
-
