@@ -17,13 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from core import views
-from core.views import LinkCreate
+from core.views import LinkCreate, CategoryCreate
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('', views.links, name='home'),
     path('admin/', admin.site.urls),
     path('create/', login_required(LinkCreate.as_view()), name='create'),
+    path('create_category/', login_required(CategoryCreate.as_view()), name='create_category'),
+
     # Paths de Auth
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('registration.urls')),

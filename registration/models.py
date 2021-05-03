@@ -15,9 +15,11 @@ class Profile(models.Model):
     bio = models.TextField(null=True, blank=True)
     darkmode = models.BooleanField(default=False)
 
-
     class Meta:
         ordering = ['user__username']
+    
+    def __str__(self):
+        return str(self.user)
 
 @receiver(post_save, sender=User)
 def ensure_profile_exists(sender, instance, **kwargs):
