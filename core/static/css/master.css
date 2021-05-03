@@ -1,19 +1,29 @@
+nav {
+  border-bottom: 1px solid;
+  margin-bottom: 10vh;
+  padding: 10px;
+}
 img {
     width: 10vw;
     height: 10vw;
     border-radius: 10%;
   }
-  .link {
-    background-color: blueviolet;
-  }
-  img:hover {
-    transform: rotate(10deg);
-  }
-  img {
-    transition: transform 0.2s linear 0.1s;
-  }
-  nav {
-    border-bottom: 1px solid;
-    margin-bottom: 10vh;
-    padding: 10px;
-  }
+img:hover {
+  transform: rotate(10deg);
+}
+img {
+  transition: transform 0.2s linear 0.1s;
+}
+.cat {
+  border-width: 0.1px;
+  border-color: white;
+  border-radius: 10px;
+  border-style: dashed;
+}
+.cat:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.cat {
+  transition: background-color 0.6s linear 0s;
+}
+

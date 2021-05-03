@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from core.models import Category, Link
+from registration.models import Profile
 from .forms import LinkForm
 from django.urls import reverse_lazy
 
@@ -8,7 +9,8 @@ from django.urls import reverse_lazy
 def links(request):
     categories= Category.objects.all() 
     links= Link.objects.all()
-    return render(request, "core/link_list.html", {'categories':categories,'links':links})
+    profiles= Profile.objects.all()
+    return render(request, "core/link_list.html", {'categories':categories,'links':links, 'profiles':profiles})
 
 
 class LinkCreate(CreateView):

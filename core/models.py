@@ -1,5 +1,5 @@
 from django.db import models
-
+from registration.models import Profile
 # Create your models here.
 
 class Category(models.Model):
@@ -16,8 +16,8 @@ class Link(models.Model):
     text = models.TextField(null=True, blank=True, verbose_name= "Descripción") 
     link = models.URLField(verbose_name= "Url", default=None, max_length=500, null=True, blank=True)
     img= models.ImageField(verbose_name= "Imagen", upload_to="logo", null=True, blank=True)
-    active = models.BooleanField(default=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE) 
+    category = models.ForeignKey(Profile, on_delete=models.CASCADE) 
 
     class Meta:
         verbose_name= "Sitio"

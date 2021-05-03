@@ -3,27 +3,36 @@
 {% block title %}Links{% endblock %}
 
 {% block content %}
-<div class="row col-12">
-  <div class="container col-10">
-    {% for cat in categories %}
-    <h3 class="container col-12 float-left ml-0">
-      {{cat.name}}
-    </h3>
-      {% for lk in links %}
+
+{% if request.user.is_authenticated %}
+  <div class="row text-center col-12">
+    <div class="container col-10">
+      {% for cat in categories %}
+      <div class="row cat mb-5">
+
+        <h3 class="container col-12 float-left ml-0">
+          {{cat.name}}
+        </h3>
+        {% for lk in links %}
         {% if lk.category == cat %}
-          <div class="link float-left col-2 p-3">
-              <a href="{{lk.link}}">
-                  <img src="{{lk.img.url}}" alt="">
-              </a>
-              <p>
-                {{lk.name}}
-              </p>
-          </div>  
+        <div class="float-left col-2 p-3">
+          <a href="{{lk.link}}">
+            <img src="{{lk.img.url}}" alt="">
+          </a>
+          <p>
+            {{lk.name}}
+          </p>
+        </div>  
         {% endif %}                
+        {% endfor %}
+      </div>
       {% endfor %}
-    {% endfor %}
-  </div>        
-</div>
+    </div>        
+  </div>
+
+{% else %}  
+  Hi! welcome to the board collection     
+{% endif %}
 
 {% endblock %}
 

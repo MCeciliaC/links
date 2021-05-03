@@ -23,7 +23,8 @@
               <h3>Configuración de cuenta</h3>
               <input type="file" name="avatar" class="form-control-file mt-3" id="id_avatar">
               {{ form.bio }}
-              {{ form.link }}
+              <br>
+              <p>{{form.darkmode}} Modo oscuro:</p> 
               <input type="email" value="{{request.user.email}}" class="form-control mt-3" readonly>
               <p class="mt-3">
                 Si deseas editar tu email haz clic <a href="{% url 'profile_email' %}">aquí</a>.<br>
