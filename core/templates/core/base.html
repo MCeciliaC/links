@@ -11,27 +11,31 @@
     <!-- Link CSS -->
     {% load static %}
     <link href="{% static 'css/master.css' %}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+
   </head>
 
   <body id="demo">
 
     <nav>
-      <div class="row text-center">
-        
+      <div class="row text-center">        
         {% if request.user.is_authenticated %}
           {% if request.user.is_superuser %}
-            <a class="nav-link col-4" href="/admin">Admin {{request.user}}</a>
+            <a class="nav-link col-3" href="/admin">Admin {{request.user}}</a>
           {% else %} 
-            <a class="nav-link col-4" href="/">Hi {{request.user}}!</a>
+            <a class="nav-link col-3" href="/">Hi {{request.user}}!</a>
           {% endif %}
-          <a class="nav-link col-4" href="/accounts/logout">Logout</a>
-          <a class="nav-link col-4" href="/accounts/profile">Settings</a>
+          <a class="nav-link col-3" href="/accounts/profile">Account</a>
+          <a class="nav-link col-3" href="/contact">Contact</a>
+          <a class="nav-link col-3" href="/accounts/logout">Logout</a>
           {% for pro in profiles %}
             {% if request.user == pro.user %}
               {% if pro.darkmode == True %}
                 <script>
                   document.getElementById("demo").style.backgroundColor = "#222222";
                   document.getElementById("demo").style.color = "white";
+                  document.getAttribute("a").style.
                 </script>
               {% else %}
                 <script>
@@ -39,18 +43,28 @@
                   document.getElementById("demo").style.color = "#222222";
                 </script>     
               {% endif %}
-      
+            }
+
             {% endif %}
           {% endfor %}
         {% else %}       
-          <a class="nav-link col-4" href="/">Home</a>
-          <a class="nav-link col-4" href="/accounts/signup">Registrar</a>
-          <a class="nav-link col-4" href="/accounts/login">Iniciar sesion</a>
+          <a class="nav-link col-3" href="/">Home</a>
+          <a class="nav-link col-3" href="/accounts/signup">Signup</a>
+          <a class="nav-link col-3" href="/accounts/login">Login</a>
+          <a class="nav-link col-3" href="/contact">Contact</a>
+
         {% endif %}
       </div>
     </nav>
 
-    {% block content %}{% endblock %}
+<div class="middle col-12">
+  {% block content %}{% endblock %}
+</div>
 
+{% comment %}
+<a href="">Doname un 
+  <i class="fas fa-coffee"></i>
+</a>
+{% endcomment %}
   </body>
 </html>

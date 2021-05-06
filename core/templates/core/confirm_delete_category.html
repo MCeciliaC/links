@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Borrar Categoría{% endblock %}
+
+{% block content %}
+
+<div class="container text-align-left col-sm-11 col-md-4 box">
+    <h3>Eliminar categoría</h3>
+    <form action="" method="post">{% csrf_token %}
+        <p>Si elimina la categoría <b>"{{ object }}"</b>, se eliminarán automáticamente los sitios asociados. ¿Seguro desea eliminarla?</p>
+        <input type="submit" class="btn home container text-center col-sm-12 col-md-6 btn-block" value="Confirmar" />
+        <a href="{% url 'home' %}">   
+            <p class= " text-center mt-3">No, volver</p>
+        </a>
+    </form>
+</div> 
+{% endblock %}

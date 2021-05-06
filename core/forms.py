@@ -11,7 +11,7 @@ class LinkForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class':'form-control'}),
             'text': forms.TextInput(attrs={'class':'form-control'}),
             'link': forms.TextInput(attrs={'class':'form-control'}),   
-            'img': forms.FileInput(attrs={'class':'form-control', 'placeholder':'Numero telefónico'}),
+            'img': forms.FileInput(attrs={'class':'form-control'}),
             'category': forms.Select(attrs={'class':'form-control'}),
             'user': forms.Select(attrs={'class':'form-control'}),
 
@@ -35,3 +35,28 @@ class CategoryForm(forms.ModelForm):
                     'name':'Nombre', 
                 }
 
+class LinkUpdateForm(forms.ModelForm):
+    class Meta:
+        model= Link
+        fields= ['name', 'text', 'link', 'img', 'category']
+        widgets = {
+            'name': forms.TextInput(attrs={'class':'form-control'}),
+            'text': forms.TextInput(attrs={'class':'form-control'}),
+            'link': forms.TextInput(attrs={'class':'form-control'}),   
+            'img': forms.FileInput(attrs={'class':'form-control'}),
+        }
+        labels = {
+                'name':'', 'text': '', 'link':'', 'img': ''
+            }
+
+class CategoryUpdateForm(forms.ModelForm):
+        class Meta:
+            model= Category
+            fields= ['name']
+            widgets = {
+                'name': forms.TextInput(attrs={'class':'form-control'}),
+            }
+
+            labels = {
+                    'name':'', 
+                }

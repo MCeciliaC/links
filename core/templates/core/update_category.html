@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Actualizar Sitio{% endblock %}
+
+{% block content %} 
+
+<div class="container text-align-left col-sm-11 col-md-4 box">
+    <h3>Editar categoría</h3> <br>
+    <form id="form_creacion" action="" method="POST">
+        {% csrf_token %}
+        <table class="container col-12">
+            {{form.as_table}}
+        </table><br>
+        <div class="col-12">
+            <input type="submit" class="btn home container col-sm-12 col-md-6 btn-block" value="Actualizar" />
+            <a href="{% url 'home' %}">   
+                <p class= " text-center mt-3">Volver</p>
+            </a>            
+        </div>  
+    </form>
+</div>  
+{% endblock %}

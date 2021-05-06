@@ -1,35 +1,36 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Registar{% endblock %}
+{% block title %}Crear sitio{% endblock %}
 
 {% block content %}
 
 <div class="container text-align-left col-sm-11 col-md-6 box">
-    <h3>Añadir nuevo sitio web</h3><br>
-    <form id="form_creacion" action="" method="POST">
+    <h3>Agregar nuevo sitio web</h3><br>
+
+    <form id="form_creacion" action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <table class="container col-12">            
-            <input type="text" name="name" class="form-control" placeholder="Nombre del sitio" maxlength="100" required id="id_name"><br>            
+            <input type="text" name="name" class="form-control" placeholder="Nombre del sitio" maxlength="100" id="id_name" required ><br>            
             <input type="text" name="text" class="form-control" placeholder="Descripción corta (opcional)" id="id_text"><br>
-            <input type="text" name="link" class="form-control" placeholder="URL del sitio. Ej: www.google.com" maxlength="500" id="id_link">
-            <label for="id_img">Imagen del sitio:</label>
+            <input type="text" name="link" class="form-control" placeholder="URL del sitio. Ej: www.google.com" maxlength="500" id="id_link" required >
+        <label for="id_img">Imagen del sitio:</label>
             <input type="file" name="img" class="form-control" accept="image/*" id="id_img">
-            <label for="id_category">Categoría:</label>
-            <select name="category" class="form-control" id="id_category">
-                <option value="" selected>---------</option>
-                {% for c in categories %}
-                    {% if c.user == request.user.profile %}     
-                        <option value="{{c.id}}">{{c}}</option>
-                    {% endif %}              
-                {% endfor %}
-            </select>
-            <select name="user" class="form-control" id="id_user" hidden>
-                <option value="" >---------</option>
-                <option selected value="{{request.user.profile.id}}">{{request.user.profile}}</option>
-            </select><br>                     
+        <label for="id_category">Categoría:</label>
+        <select name="category" class="form-control" id="id_category" required>
+            <option value="" selected>---------</option>
+            {% for c in categories %}
+                {% if c.user == request.user.profile %}     
+                    <option value="{{c.id}}">{{c}}</option>
+                {% endif %}              
+            {% endfor %}
+        </select>
+        <select name="user" class="form-control" id="id_user" hidden>
+            <option value="" >---------</option>
+            <option selected value="{{request.user.profile.id}}">{{request.user.profile}}</option>
+        </select><br>                     
         </table>        
         <div class="col-12 p-0 m-0 mt-3">
-            <input type="submit" class="btn container col-12 btn-block" value="Crear" />
+            <input type="submit" class="btn container col-sm-12 col-md-6  btn-block" value="Crear" />
             <p class= " text-center mt-3">
                 Si desea volver, haz click <a href="/">aquí.</a> <br> Si desea añadir una nueva categoría,<a href="/create_category">aquí.</a>
             </p>

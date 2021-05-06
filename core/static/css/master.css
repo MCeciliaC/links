@@ -1,7 +1,16 @@
+body {/*
+  background-image: url("../Gradient.jpg");
+  background-size: 150vw;*/
+}
 nav {
   border-bottom: 1px solid;
-  margin-bottom: 10vh;
+  margin-bottom: 8vh;
   padding: 10px;
+  height: 8vh;
+}
+.subnav {
+  margin: 0%;
+  max-height: 10vh;
 }
 img {
     width: 10vw;
@@ -15,18 +24,36 @@ img {
   transition: transform 0.2s linear 0.1s;
 }
 .cat {
+  padding: 10px;
   border-width: 0.1px;
-  border-color: white;
+  border-color: #808080;
   border-radius: 10px;
   border-style: dashed;
+  background-color :rgba(243, 230, 255, 0.1)
 }
+.middle {
+  min-height: 72vh;
+  margin-top: 0%;
+  margin-bottom: 0%;
+}
+/*Icons*/
+i {
+  color: gray;
+}
+.fa-times:hover {
+  color: red;
+}
+a:hover {
+  text-decoration: none;
+}
+/*
 .cat:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 .cat {
   transition: background-color 0.6s linear 0s;
 }
-
+*/
 .btn-block {
   background-color:gray;
 }
@@ -38,3 +65,8 @@ img {
   border: solid 0.5px blueviolet;
 }
 
+h1.welcome {
+  font-size: 8em;
+  font-weight: bolder;
+  text-align: left;
+}

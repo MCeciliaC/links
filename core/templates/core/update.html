@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Actualizar Sitio{% endblock %}
+
+{% block content %} 
+
+<div class="container text-align-left col-sm-11 col-md-4 box">
+    <h3>Editar sitio web</h3> 
+    <a href="{% url 'delete' link.id %}">
+        ¿Quieres eliminar el sitio?             
+    </a><br><br>
+    <form id="form_creacion" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="container col-12">
+            {{form.name}} <br>
+            {{form.text}} <br>
+            {{form.link}} <br>
+            {{form.img}} <br>
+            <select name="category" class="form-control" id="id_category" required>
+            {% for c in categories %}
+                {% if c.user == request.user.profile %}     
+                    <option value="{{c.id}}">{{c}}</option>
+                {% endif %}              
+            {% endfor %}
+            </select> <br>
+        </table>
+        <div class="col-12">
+            <input type="submit" class="btn home container col-sm-12 col-md-6 btn-block" value="Actualizar" />
+            <a href="{% url 'home' %}">   
+                <p class= " text-center mt-3">Volver</p>                 
+            </a>            
+        </div>  
+    </form>
+</div>  
+{% endblock %}

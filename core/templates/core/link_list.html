@@ -4,46 +4,83 @@
 
 {% block content %}
 
-{% if request.user.is_authenticated %}
 <div class="row text-center col-12">
-  <a class="nav-link col-4" href="/create">+ Agregar nuevo sitio</a>
-  <a class="nav-link col-4" href="/create_category">+ Agregar nueva categoria</a>
-
-  <div class="container col-10">
+  {% if request.user.is_authenticated %}  
+  <a class="col-4 float-left" href="/create">+ Agregar nuevo sitio</a>
+    <a class="col-4 float-left" href="/create_category">+ Agregar nueva categoria</a>
+  <div class="container col-10 mt-4">
     {% for cat in categories %}
-      {% if cat.user == request.user.profile %}        
+    {% if cat.user == request.user.profile %}        
         <div class="row cat mb-5">
-          <h3 class="container col-12 float-left ml-0">
-            {{cat.name}}
-          </h3>            
+          <h3 class="container col-10 float-left ml-0">
+            <abrr title="Edit category">
+              <a href="{% url 'update_category' cat.id %}" class="edit">
+                {{cat.name}}
+              </a>
+            </abrr>
+          </h3> 
+          <h3 class="container col-2 float-right">     
+            <a href="{% url 'delete_category' cat.id %}" class="edit float-right">
+              <abrr title="Delete category">
+                <i class="fas fa-times"></i>                      
+              </abrr>
+            </a>
+          </h3>           
           {% for lk in links %}
             {% if lk.category == cat %}
-              <div class="float-left col-2 p-3">
+            <div class="float-left col-2 p-3">
                 <a href="{{lk.link}}">
-                {% if lk.img %}
-                  <img src="{{lk.img.url}}" alt="">
-                {% else %}  
-                  <img src="core/static/core/none.jpg" alt="">
-                {% endif %}               
+                  <abrr title="{{lk.text}}">
+                    {% if lk.img %}
+                    <img src="{{lk.img.url}}" alt="">
+                    {% else %}  
+                    {% load static %}
+                    <img src="{% static '/none.jpg' %}" alt="">
+                    {% endif %}               
+                  </abrr>
                 </a>
-                <p>
-                  {{lk.name}} 
+                <p class="mt-1">
+                  <abrr title="Edit {{lk.name}}">                    
+                    <a href="{% url 'update' lk.id %}">
+                      {{lk.name}} 
+                    </a>   
+                  </abrr>
                 </p>
               </div>  
             {% endif %}                
-          {% endfor %}          
+            {% endfor %}          
         </div>
-      {% endif %}
+        {% endif %}
     {% endfor %}      
   </div>        
+  
+  
+  {% else %}  
+  <div class="container col-10 mt-0">    
+    <h1 class="welcome">
+      Hi! welcome to  <br>the collections board
+    </h1>
+  </div>
+  {% endif %}
 </div>
-
-{% else %}  
-<div class="row text-center col-12">
-  Hi! welcome to the board collection   
-</div>
-{% endif %}
 
 {% endblock %}
 
 
+{% if 'ok' in request.GET %}
+<p style="color:green;">
+  El sitio se ha actualizado correctamente.
+</p>
+{% elif 'created' in request.GET %}
+<p style="color:green;">
+  Se ha añadido un nuevo sitio.
+</p>
+{% elif 'createdc' in request.GET %}
+<p style="color:green;">
+Se ha añadido una nueva categoría.
+</p>
+{% elif 'deleted' in request.GET %}
+<p style="color:green;">
+  El sitio se ha eliminado correctamente.
+</p>
+{% endif %} 
